@@ -1,0 +1,37 @@
+#!/bin/bash
+#True Capacity 1.0 Stable
+echo "True Capacity 1.0 Stable"
+echo -n "Path to mounted device partition:"
+read device
+#Authentication 1
+write=$(dd if=/dev/zero bs=1M of=${device}/truecapacity.tmp 2>&1)
+a1_capacityb=$(echo -n "$write" | tail --lines=1 | sed 's/ bytes.*//g')
+a1_capacitymb=$(bc <<< "scale=2;${a1_capacityb}/1000000")
+a1_capacitymib=$(bc <<< "scale=2;${a1_capacityb}/1048576")
+a1_capacitygb=$(bc <<< "scale=2;${a1_capacityb}/1000000000")
+a1_capacitygib=$(bc <<< "scale=2;${a1_capacityb}/1073741824")
+#Authentication 2
+a2_capacityb=$(wc -c "${device}/truecapacity.tmp" | sed 's/ .*//g')
+a2_capacitymb=$(bc <<< "scale=2;${a2_capacityb}/1000000")
+a2_capacitymib=$(bc <<< "scale=2;${a2_capacityb}/1048576")
+a2_capacitygb=$(bc <<< "scale=2;${a2_capacityb}/1000000000")
+a2_capacitygib=$(bc <<< "scale=2;${a2_capacityb}/1073741824")
+removetmp=$(rm "${device}/truecapacity.tmp")
+if [[ "$a1_capacityb" == "$a2_capacityb" ]]; then
+    match="The results of authentication 1 and 2 match."
+else
+    match="The results of authentication 1 and 2 do not match. Authentication 2 results superceed authentication 1 results."
+fi
+echo "$match"
+echo "Device capacity according to authentication 1:"
+echo "Approximately ${a1_capacityb} bytes"
+echo "Approximately ${a1_capacitymb} megabytes"
+echo "Approximately ${a1_capacitymib} mebibytes"
+echo "Approximately ${a1_capacitygb} gigabytes"
+echo "Approximately ${a1_capacitygib} gibibytes"
+echo "Device capacity according to authentication 2:"
+echo "Approximately ${a2_capacityb} bytes"
+echo "Approximately ${a2_capacitymb} megabytes"
+echo "Approximately ${a2_capacitymib} mebibytes"
+echo "Approximately ${a2_capacitygb} gigabytes"
+echo "Approximately ${a2_capacitygib} gibibytes"

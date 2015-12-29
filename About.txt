@@ -1,0 +1,8 @@
+True Capacity is an open-source flashdrive/memorycard capacity tester (Bash script) for GNU/Linux, licensed under release 1.0 of the Comprehensible Open License.
+
+Features:
+- 2 stages of authentication. The first authentication reports approximately how much data was written to the device. The second authentication reports approximately how much data is on the device.
+
+True Capacity 1.0 Stable has been tested with Ubuntu 14.04 Desktop AMD64, but should work on any GNU/Linux distro provided Bash is used as the shell, and the following dependencies are installed (as well as accessible without specifying an executable path!): sed, bc, and coreutils (wc,rm,tail,dd). To install True Capacity, extract the files to a folder in a location of your choice (eg: ~/true-capacity), and install the dependencies. To launch use "bash ~/true-capacity/true-capacity-manager" (substitute "~/true-capacity" for the location you saved True Capacity). In order to test a device, your device MUST be setup with, ideally an MBRPT (Master Boot Record Partition Table), 1 full length partition, ideally an EXT2 filesystem, and contain NO data. Deviation from this may yeild results of less accuracy.
+
+Author: Summersleeps
